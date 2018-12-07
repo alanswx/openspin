@@ -59,8 +59,10 @@ class WheelMenuViewController extends ViewController {
     this.wheel.addEventListener('select', (evt) => {
       let game = this.gameList[evt.detail.selectedIndex].name;
       // TODO: Determine if the selected item is another system or a game.
-      this.onGameSelect(game);
-      this.onSystemSelect(game);
+      if (this.system=="Main Menu")
+        this.onSystemSelect(game);
+      else
+        this.onGameSelect(game);
     });
 
     this.wheel.addEventListener('exit', () => {
@@ -171,7 +173,20 @@ class WheelMenuViewController extends ViewController {
     this.foreground.game = this.game;
   }
 
-  onGameSelect(game) {}
+  onGameSelect(game) {
+   console.log("launching:"+game);
+   var child = require('child_process').execFile;
+   var executablePath = "C:\\RocketLauncher\\RocketLauncher.exe";
+   var parameters = [this.system,game];
+   console.log("launching:");
+   console.log(executablePath);
+   console.log(parameters);
+
+   child(executablePath, parameters, function(err, data) {
+     console.log(err)
+     console.log(data.toString());
+   });
+  }
   onSystemSelect(system) {}
   onExit() {}
 }
